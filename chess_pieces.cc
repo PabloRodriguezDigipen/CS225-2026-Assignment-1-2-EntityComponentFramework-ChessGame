@@ -18,6 +18,10 @@ bool Pawn::canMoveTo(int x, int y) {
 	if (x == pos->getX() && y == pos->getY() + direction)
         return true;
 
+	if ((x - 1 == pos->getX() && y == pos->getY() + direction) ||
+		(x + 1 == pos->getX() && y == pos->getY() + direction))
+        return true;
+
     if (x == pos->getX() && y == pos->getY() + 2 * direction) {
         if (isWhite() && pos->getY() == 1)
             return true;
