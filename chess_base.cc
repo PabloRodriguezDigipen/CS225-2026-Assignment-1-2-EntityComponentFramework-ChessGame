@@ -1,25 +1,30 @@
 #include "chess_base.hh"
 #include "chess_pieces.hh"
 
+//piece constructor to only set white bool
 Piece::Piece(bool iswhite) {
     is_color_white = iswhite;
 }
 
+//piece constructor to se isWhite, x, y and the letter
 Piece::Piece(bool iswhite, int x, int y, char letter) {
     is_color_white = iswhite;
     attach(new PositionComponent(x,y));
     attach(new VisualComponent(letter));
 }
 
+//return if its white
 bool Piece::isWhite() {
     return is_color_white;
 }
 
+//get the position component of the piece
 PositionComponent* Piece::getPosition() {
     PositionComponent* position = dynamic_cast<PositionComponent*>(getComponent("Position"));
     return position;
 }
         
+//get the visual component of the piece
 VisualComponent* Piece::getVisual() {
     VisualComponent* visual = dynamic_cast<VisualComponent*>(getComponent("Visual"));
     return visual;
@@ -28,15 +33,19 @@ VisualComponent* Piece::getVisual() {
 Piece::~Piece() {}
 
 
-
+//initializer of the board
 void ChessBoard::initializeBoard() {
+    //all columns
     for (int i = 0; i < BOARD_SIZE; i++){
+        //all rows, except the first and last 2
         for (int j = 2; j < BOARD_SIZE - 2; j++){
+            //all null
             board[i][j] = nullptr;
         }
     }
 
     {
+        //create all white pawns
         Pawn* wPawn1 = new Pawn(true, 0, 1, 'P');
         setPieceAt(wPawn1, 0, 1);
         Pawn* wPawn2 = new Pawn(true, 1, 1, 'P');
@@ -54,6 +63,7 @@ void ChessBoard::initializeBoard() {
         Pawn* wPawn8 = new Pawn(true, 7, 1, 'P');
         setPieceAt(wPawn8, 7, 1);
 
+        //create the rest of white pieces
         Rook* wRook1 = new Rook(true, 0, 0, 'R');
         setPieceAt(wRook1, 0, 0);
         Knight* wKnight1 = new Knight(true, 1, 0, 'N');
@@ -73,6 +83,7 @@ void ChessBoard::initializeBoard() {
 
 
 
+        //create all black pawns
         Pawn* bPawn1 = new Pawn(false, 0, 6, 'p');
         setPieceAt(bPawn1, 0, 6);
         Pawn* bPawn2 = new Pawn(false, 1, 6, 'p');
@@ -90,6 +101,7 @@ void ChessBoard::initializeBoard() {
         Pawn* bPawn8 = new Pawn(false, 7, 6, 'p');
         setPieceAt(bPawn8, 7, 6);
 
+        //create the rest of white pieces
         Rook* bRook1 = new Rook(false, 0, 7, 'r');
         setPieceAt(bRook1, 0, 7);
         Knight* bKnight1 = new Knight(false, 1, 7, 'n');
@@ -109,10 +121,12 @@ void ChessBoard::initializeBoard() {
     }
 }
 
+//get the piece at the position
 Piece* ChessBoard::getPieceAt(int x, int y) {
     return board[x][y];
 }
 
+//set a piece on the position
 void ChessBoard::setPieceAt(Piece* piece, int x, int y) {
     board[x][y] = piece;
 }
